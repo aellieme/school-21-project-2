@@ -11,9 +11,9 @@ s21_size_t s21_strlen(const char *string){
     return i;
 }
 
-// int main() {
-//   char str[] = "Hello, world!";
-//   s21_size_t result = s21_strlen(str);
-//     printf("длина строки %llu\n", result);
-//   return 0;
-// }
+int main() {
+  char str[] = "Hello, world!";
+  s21_size_t result = s21_strlen(str);
+    printf("длина строки %llu\n", result);
+  return 0;
+}
