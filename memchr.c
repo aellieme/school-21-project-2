@@ -29,6 +29,5 @@ int main() {
   } else {
     printf("Не найдено.\n");
   }
-
   return 0;
 }
