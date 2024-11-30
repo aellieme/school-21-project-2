@@ -1,8 +1,0 @@
----
-triple:          'x86_64-apple-darwin'
-binary-path:     '/Users/barrimel/Documents/GitHub/school-21-project-2/main'
-relocations:
-  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _memchr, symObjAddr: 0x0, symBinAddr: 0x100003DF0, symSize: 0x90 }
-  - { offsetInCU: 0x49, offset: 0x49, size: 0x8, addend: 0x0, symName: _memchr, symObjAddr: 0x0, symBinAddr: 0x100003DF0, symSize: 0x90 }
-  - { offsetInCU: 0xB7, offset: 0xB7, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x90, symBinAddr: 0x100003E80, symSize: 0xA9 }
-...
