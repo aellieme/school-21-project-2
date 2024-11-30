@@ -1,20 +1,34 @@
-#define NULL ((void*)0); //в интернете написано что это определение нулевого указателя
-#include <stdio.h>
-unsigned long size_t;
+// #define NULL ((void*)0); //в интернете написано что это определение нулевого
+// указателя
+// // string – указатель на область памяти, где будет производиться поиск.
+// // item – символ, который нужно найти.
+// count – количество байт,которые будут проверены начиная с позиции, указанной
+// параметром string
 
-void* memchr(const void* ptr, int ch, size_t count) {
-  //const unsigned char* p = (const unsigned char*)ptr;
-  void* return_value = NULL;
-  for (size_t i = 0; i < count; i++) {
-    if (ptr[i] ==  (unsigned char)ch) {
-      return_value = (void*)(ptr + i);
-      break;//!!!!!!!!!!!!!!
-      }
+#include <stdio.h>
+
+#define s21_NULL (void *)0
+#define s21_size_t unsigned long long
+
+void *s21_memchr(const void *string, int item, s21_size_t count) {
+  void *return_value = s21_NULL;
+  for (s21_size_t i = 0; i < count && return_value == s21_NULL; i++) {
+    if (*(unsigned char *)(string + i) == (unsigned char)item) {
+      return_value = (void *)(string + i);
     }
-    return return_value;
+  }
+  return return_value;
 }
-// ptr – указатель на область памяти, где будет производиться поиск.
-// ch – символ, который нужно найти.Этот параметр 
-//приводится к типу unsigned char.count – количество байт,
-//которые будут проверены начиная с позиции, указанной параметром ptr.
-int main() { memchr(const void* ptr, int ch, unsigned long size_t count); }
+
+int main() {
+  char str[] = "Hello, world!";
+  void *result = s21_memchr(str, 'o', sizeof(str));
+
+  if (result != s21_NULL) {
+    printf("Первое появление 'o' обнаружено по адресу %p\n", result);
+  } else {
+    printf("Не найдено.\n");
+  }
+
+  return 0;
+}
