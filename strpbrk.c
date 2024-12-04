@@ -1,10 +1,6 @@
 // Находит первый символ в строке str1, который соответствует любому символу,
 // указанному в str2.
-#include <stdio.h>
-#include <string.h>
-
-#define s21_NULL (void *)0
-#define s21_size_t unsigned long long
+#include "s21_string.h"
 
 char *s21_strpbrk(const char *str1, const char *str2) {
   char *result = s21_NULL;
@@ -22,7 +18,7 @@ char *s21_strpbrk(const char *str1, const char *str2) {
 
   return result;
 }
-int main() {
+int main_s21_strpbrk() {
   const char *str1 = "Hello, world!";
   const char *str2 = "Yallo Store";
 

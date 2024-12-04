@@ -1,10 +1,6 @@
 // Выполняет поиск последнего вхождения символа c (беззнаковый тип) в строке, на
 // которую указывает аргумент str.
-#include <stdio.h>
-#include <string.h>
-
-#define s21_NULL (void *)0
-#define s21_size_t unsigned long long
+#include "s21_string.h"
 
 char *s21_strrchr(const char *str, int c){
   const char *last_found = s21_NULL;
@@ -19,7 +15,7 @@ char *s21_strrchr(const char *str, int c){
   return (char *)last_found;
 }
 
-int main() {
+int main_s21_strrchr() {
   const char *str = "hello, world!";
   char symbol = 'e';
 

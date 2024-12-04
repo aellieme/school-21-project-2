@@ -1,7 +1,4 @@
-#include <stdio.h>
-
-#define s21_NULL (void *)0
-#define s21_size_t unsigned long long
+#include "s21_string.h"
 
 s21_size_t s21_strlen(const char *string){
     s21_size_t i=0;
@@ -11,7 +8,7 @@ s21_size_t s21_strlen(const char *string){
     return i;
 }
 
-int main() {
+int main_s21_strlen() {
   char str[] = "Hello, world!";
   s21_size_t result = s21_strlen(str);
     printf("длина строки %llu\n", result);

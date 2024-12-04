@@ -5,10 +5,7 @@
 // count – количество байт,которые будут проверены начиная с позиции, указанной
 // параметром string
 
-#include <stdio.h>
-
-#define s21_NULL (void *)0
-#define s21_size_t unsigned long long
+#include "s21_string.h"
 
 void *s21_memchr(const void *string, int item, s21_size_t count) {
   void *return_value = s21_NULL;
@@ -20,7 +17,7 @@ void *s21_memchr(const void *string, int item, s21_size_t count) {
   return return_value;
 }
 
-int main() {
+int main_s21_memchr() {
   char str[] = "Hello, world!";
   void *result = s21_memchr(str, 'o', sizeof(str));
 

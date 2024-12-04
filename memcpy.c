@@ -4,10 +4,7 @@
 // memory_from — указатель на  область памяти, откуда будут скопированы данные.
 //  size — количество байт, которые нужно скопировать.
 
-#include <stdio.h>
-
-#define s21_NULL (void *)0
-#define s21_size_t unsigned long long
+#include "s21_string.h"
 
 void *s21_memcpy(void *memory_to, const void *memory_from, size_t size){
 
@@ -17,7 +14,7 @@ void *s21_memcpy(void *memory_to, const void *memory_from, size_t size){
     return memory_to;
 }
 
-int main(){
+int main_s21_memcpy(){
     //test1
   char source[] = "Hello, World!";
   char destination[100];

@@ -1,11 +1,7 @@
 // Вычисляет длину (префикса строки) / (подстроки) str1, который состоит исключительно из символов 
 // которых нет в str2
 
-#include <stdio.h>
-#include <string.h> //только для теста!!!!!!!!!!!!!!!!!
-
-#define s21_NULL (void *)0
-#define s21_size_t unsigned long long
+#include "s21_string.h"
 
 s21_size_t s21_strcspn(const char *str1, const char *str2){
 
@@ -23,7 +19,7 @@ s21_size_t s21_strcspn(const char *str1, const char *str2){
 }
 
 
-int main(){
+int main_s21_strcspn(){
   const char *str1 = "hello world";
   const char *str2 = "bacgv";
 

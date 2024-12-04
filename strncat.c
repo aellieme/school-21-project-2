@@ -1,10 +1,7 @@
 // Добавляет строку, на которую указывает str_from, в конец строки, на которую
 // указывает str_to, длиной до n символов.
 
-#include <stdio.h>
-
-#define s21_NULL (void *)0
-#define s21_size_t unsigned long long
+#include "s21_string.h"
 
 char *s21_strncat(char *str_to, const char *str_from, s21_size_t size){
     s21_size_t len = 0;
@@ -19,7 +16,7 @@ char *s21_strncat(char *str_to, const char *str_from, s21_size_t size){
     return str_to;
 }
 
-int main(){
+int main_s21_strncat(){
     char str1[50] = "Hello ";
     const char str2[] = "world!";
     s21_strncat(str1, str2, 4);

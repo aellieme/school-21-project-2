@@ -1,9 +1,6 @@
 // Сравнивает первые n байтов str1 и str2.
 
-#include <stdio.h>
-
-#define s21_NULL (void *)0
-#define s21_size_t unsigned long long
+#include "s21_string.h"
 
 int s21_memcmp(const void *str1, const void *str2, s21_size_t size){
 
@@ -21,7 +18,7 @@ int s21_memcmp(const void *str1, const void *str2, s21_size_t size){
     }
     return result;
 }
-int main(){
+int main_s21_memcmp(){
   char str1[] = "hello";
   char str2[] = "hello";
   s21_size_t size = 5;

@@ -270,14 +270,4 @@ const char *error_list[] = {
 
 
 
-char *s21_strerror(int errnum){
-  char res[512] = {'\0'};
-
-  if (errnum <= MIN_ERRLIST || errnum >= MAX_ERRLIST) {
-    s21_sprintf(res, "Unknown error: %d", errnum);
-  } else {
-    s21_strcpy(res, ((char *)error_list[errnum]));
-  }
-
-  return res;
-}
+char *s21_strerror(int errnum);

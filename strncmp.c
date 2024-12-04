@@ -1,11 +1,6 @@
 // Сравнивает не более первых n байтов str1 и str2
 
-#include <stdio.h>
-
-#define s21_NULL (void *)0
-#define s21_size_t unsigned long long
-
-
+#include "s21_string.h"
 
 int s21_strncmp(const char *str1, const char *str2, s21_size_t n){
     s21_size_t i = 0;
@@ -26,7 +21,7 @@ int s21_strncmp(const char *str1, const char *str2, s21_size_t n){
 
 
 
-int main() {
+int main_s21_strncmp() {
     const char *str1 = "applepie";
     const char *str2 = "apricot";
     s21_size_t n = 5;
