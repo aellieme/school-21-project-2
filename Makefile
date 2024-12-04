@@ -7,7 +7,7 @@ HEADERS = $(SRCS:.c=.h)
 OBJS = $(SRCS:.c=.o)
 
 CC = gcc
-CFLAGS = -Wall -Wextra -fPIC
+CFLAGS = -Wall -Wextra -Werror
 
 all: $(LIBRARY)
 
