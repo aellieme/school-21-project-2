@@ -2,7 +2,6 @@
 //которая появляется в строке haystack.
 
 #include <stdio.h>
-#include <string.h>
 #define s21_NULL (void *)0
 
 // Реализация функции strstr с использованием указателей
