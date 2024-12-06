@@ -14,7 +14,8 @@ void print_strings(char* bufer, const char* string, ...) {
     va_list args;
     va_start(args, string);
 
-    int i, j = 0;
+    int i = 0;
+    int j = 0;
     while (string[j] != '\0') {
         if (string[j] == '%') {
             switch (string[j + 1]) {
