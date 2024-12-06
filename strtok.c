@@ -1,56 +1,76 @@
 //Разбивает строку str на ряд токенов, разделенных delim.
 
 #include <stdio.h>
-#define s21_NULL (void *)0
 
-// Глобальная переменная для хранения текущей позиции в строке
-char *next_token = s21_NULL;
+#define s21_NULL (void *)0
+#define s21_size_t unsigned long long
+
+// Глобальная переменная для хранения следующей позиции токена
+static char *next_token = s21_NULL;
 
 // Функция для вычисления длины строки
-int s21_strlen(const char *str) {
-    int len = 0;
+s21_size_t s21_strlen(const char *string) {
+    s21_size_t i = 0;
+    while (string[i] != '\0') {
+        i++;
+    }
+    return i;
+}
+
+// Функция для нахождения первого вхождения любого символа из delim в строку str
+char *s21_strpbrk(const char *str1, const char *str2) {
+  char *result = s21_NULL;
+  int found = 0;
+
+  for (int count= 0; *str1 != '\0'; str1++) {
+    for (const char *ptr = str2; *ptr != '\0' && !found; ptr++) {
+      if (*str1 == *ptr) {
+        result = (char *)str1;
+        found = 1;
+      }
+    }
+    count++;
+  }
+
+  return result;
+}
+
+// Функция для нахождения длины начального сегмента строки str, состоящего только из символов, не входящих в delim
+s21_size_t s21_strcspn(const char *str, const char *delim) {
+    s21_size_t len = 0;
     while (str[len] != '\0') {
+        const char *d = delim;
+        while (*d != '\0') {
+            if (str[len] == *d) {
+                return len;
+            }
+            d++;
+        }
         len++;
     }
     return len;
 }
 
-// Функция для пропуска начальных разделителей
-char *s21_strspn(char *str, const char *delim) {
-    int i = 0;
-    while (str[i] != '\0') {
-        int j = 0;
-        while (delim[j] != '\0') {
-            if (str[i] == delim[j]) {
+// Функция для нахождения длины начального сегмента строки str, состоящего только из символов, входящих в delim
+s21_size_t s21_strspn(const char *str, const char *delim) {
+    s21_size_t len = 0;
+    while (str[len] != '\0') {
+        const char *d = delim;
+        while (*d != '\0') {
+            if (str[len] == *d) {
                 break;
             }
-            j++;
+            d++;
         }
-        if (delim[j] == '\0') {
+        if (*d == '\0') {
             break;
         }
-        i++;
+        len++;
     }
-    return str + i;
+    return len;
 }
 
-// Функция для нахождения первого вхождения любого символа из delim в str
-char *s21_strcspn(char *str, const char *delim) {
-    int i = 0;
-    while (str[i] != '\0') {
-        int j = 0;
-        while (delim[j] != '\0') {
-            if (str[i] == delim[j]) {
-                return str + i;
-            }
-            j++;
-        }
-        i++;
-    }
-    return str + i;
-}
-
-// Функция s21_strtok разбивает строку str на токены, разделенные символами из delim
+// Основная функция для разбиения строки на токены
 char *s21_strtok(char *str, const char *delim) {
     // Если str равен NULL, продолжаем разбиение с предыдущей позиции
     if (str == s21_NULL) {
@@ -62,7 +82,7 @@ char *s21_strtok(char *str, const char *delim) {
     }
 
     // Пропускаем начальные разделители
-    str = s21_strspn(str, delim);
+    str += s21_strspn(str, delim);
 
     // Если строка закончилась, возвращаем NULL
     if (*str == '\0') {
@@ -71,10 +91,10 @@ char *s21_strtok(char *str, const char *delim) {
     }
 
     // Находим конец текущего токена
-    char *token_end = s21_strcspn(str, delim);
+    char *token_end = s21_strpbrk(str, delim);
 
     // Если конец строки, устанавливаем next_token в NULL
-    if (*token_end == '\0') {
+    if (token_end == s21_NULL) {
         next_token = s21_NULL;
     } else {
         // Иначе, ставим нулевой символ в конце токена и запоминаем следующую позицию
@@ -87,21 +107,14 @@ char *s21_strtok(char *str, const char *delim) {
 }
 
 int main() {
-    // Исходная строка для разбиения на токены
-    char str[] = "I like my home, it is a place to be happy, have fun!";
-    // Строка с разделителями
+    char str[] = "Hello, world! This is a test.";
     const char delim[] = " ,!";
-    
-    // Получаем первый токен
+
     char *token = s21_strtok(str, delim);
-    // Цикл продолжается, пока токен не станет NULL
     while (token != s21_NULL) {
-        // Выводим текущий токен
-        printf("Token: %s\n", token);
-        // Получаем следующий токен, передавая NULL в качестве первого аргумента
+        printf("%s\n", token);
         token = s21_strtok(s21_NULL, delim);
     }
 
-    // Возвращаем 0, чтобы указать на успешное завершение программы
     return 0;
 }
