@@ -18,3 +18,6 @@ char *s21_strerror(int errnum){
 
   return *res;
 }
+int main(){
+  return 0;
+}
