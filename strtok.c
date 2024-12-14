@@ -1,12 +1,8 @@
 //Разбивает строку str на ряд токенов, разделенных delim.
 
 #include <stdio.h>
-
 #define s21_NULL (void *)0
 #define s21_size_t unsigned long long
-
-// Глобальная переменная для хранения следующей позиции токена
-static char *next_token = s21_NULL;
 
 // Функция для вычисления длины строки
 s21_size_t s21_strlen(const char *string) {
@@ -19,20 +15,20 @@ s21_size_t s21_strlen(const char *string) {
 
 // Функция для нахождения первого вхождения любого символа из delim в строку str
 char *s21_strpbrk(const char *str1, const char *str2) {
-  char *result = s21_NULL;
-  int found = 0;
+    char *result = s21_NULL;
+    int found = 0;
 
-  for (int count= 0; *str1 != '\0'; str1++) {
-    for (const char *ptr = str2; *ptr != '\0' && !found; ptr++) {
-      if (*str1 == *ptr) {
-        result = (char *)str1;
-        found = 1;
-      }
+    for (int count = 0; *str1 != '\0'; str1++) {
+        for (const char *ptr = str2; *ptr != '\0' && !found; ptr++) {
+            if (*str1 == *ptr) {
+                result = (char *)str1;
+                found = 1;
+            }
+        }
+        count++;
     }
-    count++;
-  }
 
-  return result;
+    return result;
 }
 
 // Функция для нахождения длины начального сегмента строки str, состоящего только из символов, не входящих в delim
@@ -72,6 +68,9 @@ s21_size_t s21_strspn(const char *str, const char *delim) {
 
 // Основная функция для разбиения строки на токены
 char *s21_strtok(char *str, const char *delim) {
+    // Статическая локальная переменная для хранения следующей позиции токена
+    static char *next_token = s21_NULL;
+
     // Если str равен NULL, продолжаем разбиение с предыдущей позиции
     if (str == s21_NULL) {
         str = next_token;
