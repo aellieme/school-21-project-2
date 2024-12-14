@@ -9,14 +9,13 @@
 
 // Функция для преобразования строки в верхний регистр
 void *s21_to_upper(const char *str) {
-    if (str == s21_NULL)
-        return s21_NULL;
-
+    char *result = s21_NULL;
+    if (str != s21_NULL){
     s21_size_t len = 0;  // Используем size_t для длины строки
     while (str[len] != '\0') len++;
 
-    char *result = (char *)malloc((len + 1) * sizeof(char));
-    if (result == s21_NULL) return NULL;
+    *result = (char *)malloc((len + 1) * sizeof(char));
+    if (result != s21_NULL)
 
     for (s21_size_t i = 0; i < len; i++) {  // Используем size_t для индекса
         if (str[i] >= 'a' && str[i] <= 'z') {  //является ли символ строчной буквой
@@ -28,6 +27,7 @@ void *s21_to_upper(const char *str) {
     result[len] = '\0';
 
     return result;
+}
 }
 
 int main() {
