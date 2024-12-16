@@ -242,3 +242,4 @@ void specifier_per(char *str, const char *format, int *i, int *j) {
     }
     // Прописать иначе - NULL и остановка программы
 }
+//
