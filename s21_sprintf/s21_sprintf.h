@@ -1,11 +1,22 @@
-#include <math.h>
+#ifndef SPRINTF_H
+#define SPRINTF_H
+
 #include <stdarg.h>
 #include <stdio.h>
+#include <string.h>
 
-int s21_sprintf(char *str, const char *format, ...);
-void specifier_c(char *str, int *i, va_list args);
-void specifier_d(char *str, int *i, va_list args);
-void specifier_f(char *str, int *i, va_list args);
-void specifier_s(char *str, int *i, va_list args);
-void specifier_u(char *str, int *i, va_list args);
-void specifier_per(char *str, const char *format, int *i, int *j);
+
+struct specifications{
+    int ch;
+    int d;
+    int u;
+    int f;
+};
+
+void fun_spec_1(char *buf, char *bufer, int *k, int *a, int **i);
+void fun_specif(struct specifications params, char* bufer, va_list args, int *i);
+void print_strings(char* bufer, const char* string, ...);
+
+
+
+#endif
