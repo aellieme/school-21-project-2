@@ -6,38 +6,38 @@
 
 // Реализация функции strstr с использованием указателей
 char *s21_strstr(const char *haystack, const char *needle) {
-    // Проверка на пустую строку needle
+    char *result = s21_NULL;
+    int found = 0;
+    
     if (*needle == '\0') {
-        return (char *)haystack; // Если needle пустая строка, возвращаем указатель на начало haystack
+        result = (char *)haystack;
+        found = 1;
     }
-
-    // Указатель на начало haystack
+    
     const char *h = haystack;
-
-    // Итерация по haystack
-    while (*h != '\0') {
-        // Указатель на начало needle
+    
+    while (*h != '\0' && !found) {
         const char *n = needle;
-
-        // Указатель для сравнения с текущим символом в haystack
         const char *current = h;
-
-        // Итерация по needle для сравнения с текущим символом в haystack
-        while (*n != '\0' && *current == *n) {
+        int match = 1;
+        
+        while (*n != '\0' && match) {
+            if (*current != *n) {
+                match = 0;
+            }
             current++;
             n++;
         }
-
-        // Если дошли до конца needle, значит подстрока найдена
-        if (*n == '\0') {
-            return (char *)h; // Возвращаем указатель на начало найденной подстроки
+        
+        if (match && *n == '\0') {
+            result = (char *)h;
+            found = 1;
         }
-
-        // Переходим к следующему символу в haystack
+        
         h++;
     }
-
-    return s21_NULL; // Подстрока не найдена
+    
+    return result;
 }
 
 int main(void) {
