@@ -1,5 +1,6 @@
-#include <stdio.h>
+//Разбивает строку str на ряд токенов, разделенных delim.
 
+#include <stdio.h>
 #define s21_NULL (void *)0
 #define s21_size_t unsigned long long
 
