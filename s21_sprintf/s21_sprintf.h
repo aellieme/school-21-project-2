@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 int s21_sprintf(char *str, const char *format, ...);
+void accuracy(char *str, const char* format, int *i, int *j, va_list args);
 void specifier_part_d(long int *d, char *str, int **i);
 void specifier_part_u(unsigned long int *u, char *str, int **i);
 void specifier_c(char *str, int *i, va_list args);

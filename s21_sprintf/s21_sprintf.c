@@ -2,11 +2,9 @@
 
 int main() {
     char buffer[1028] = {0};
-
-    s21_sprintf(buffer, "Hello %f", 1.99998889999);
+    s21_sprintf(buffer, "Hello %.*d", 12, 1951);
     printf("%s\n", buffer);
-
-    sprintf(buffer, "Hello %f", 1.99998889999);
+    sprintf(buffer, "Hello %.*d", 12, 1951);
     printf("%s\n", buffer);
 
     return 0;
@@ -23,14 +21,15 @@ int s21_sprintf(char *str, const char *format, ...) {
             str[i++] = format[j++];
         } else {
             j++;
-            if (format[j] == 'c') specifier_c(str, &i, args);
-            if (format[j] == 'd') specifier_d(str, &i, args);
-            if (format[j] == 'u') specifier_u(str, &i, args);
-            if (format[j] == 'f') specifier_f(str, &i, args);
-            if (format[j] == 's') specifier_s(str, &i, args);
-            if (format[j] =='l') specifier_l(str, format, &i, &j, args);
-            if (format[j] =='h') specifier_h(str, format, &i, &j, args);
-            if (format[j] == '%') specifier_per(str, format, &i, &j);
+            if (format[j] == '.') accuracy(str, format, &i, &j, args);
+            else if (format[j] == 'c') specifier_c(str, &i, args);
+            else if (format[j] == 'd') specifier_d(str, &i, args);
+            else if (format[j] == 'u') specifier_u(str, &i, args);
+            else if (format[j] == 'f') specifier_f(str, &i, args);
+            else if (format[j] == 's') specifier_s(str, &i, args);
+            else if (format[j] =='l') specifier_l(str, format, &i, &j, args);
+            else if (format[j] =='h') specifier_h(str, format, &i, &j, args);
+            else if (format[j] == '%') specifier_per(str, format, &i, &j);
             j++;
         }
     }
@@ -40,6 +39,33 @@ int s21_sprintf(char *str, const char *format, ...) {
     return 0;
 }
 
+void accuracy(char *str, const char* format, int *i, int *j, va_list args) {
+   char number[100] = {0};
+   int k = 0;
+   int count = 0;
+    if (format[*j+1] == '*') {
+        int ac = va_arg(args, int);
+        if (format[*j+2] == 'd') {
+        long int d = va_arg(args, int);
+
+        while( d > 0) {
+            number[k++] = (d % 10) + '0';
+            d /= 10;
+            count++;
+        }
+        while (count < ac) {
+            number[k++] = (d % 10) + '0';
+            count++;
+        }
+        for (int z = k - 1; z >= 0; z--) {
+         str[(*i)++]  = number[z]; 
+               }
+            }
+    }
+    (*j) = (*j) + 2;
+}
+
+
 
 void specifier_c(char *str, int *i, va_list args) {
     char ch = (char)va_arg(args, int);
@@ -48,9 +74,9 @@ void specifier_c(char *str, int *i, va_list args) {
 }
 
 void specifier_d(char *str, int *i, va_list args) {
+
     long int d = va_arg(args, int);
     specifier_part_d(&d, str, &i);
-//    printf("%zu\n", sizeof(d));
 }
 
 
@@ -172,7 +198,8 @@ void specifier_part_u(unsigned long int *u, char *str, int **i){
 }
 
 void specifier_part_d(long int *d, char *str, int **i){
- char number[100] = {0};
+
+    char number[100] = {0};
     int k = 0;
     if (*d < 0) {
         str[(**i)++] = '-';
