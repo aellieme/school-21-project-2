@@ -1,30 +1,21 @@
 // Сравнивает не более первых n байтов str1 и str2
 
-#include <stdio.h>
+#include "strncmp.h"
 
-#define s21_NULL (void *)0
-#define s21_size_t unsigned long long
-
-
-
-int s21_strncmp(const char *str1, const char *str2, s21_size_t n){
+int s21_strncmp(const char *str1, const char *str2, s21_size_t n) {
     s21_size_t i = 0;
     s21_size_t who_more = 0;
 
-    while ((*str1 != '\0') && (*str2 != '\0') && (*str1 == *str2) && (i<n)) {
-        str1++;
-        str2++;
+    while (i < n && str1[i] != '\0' && str2[i] != '\0' && str1[i] == str2[i]) {
         i++;
-        }
-        if (i!=n){
-            if (*str1 > *str2) who_more = 1; 
-            else if (*str1 < *str2) who_more = -1;
-            i++;
-            }
-        return (i==n) ? 0 : who_more;
+    }
+
+    if (i < n) {
+        who_more = (unsigned char)str1[i] - (unsigned char)str2[i];
+    }
+
+    return who_more;
 }
-
-
 
 int main() {
     const char *str1 = "applepie";
@@ -36,9 +27,9 @@ int main() {
     if (result == 0) {
         printf("Строки совпадают по первым %llu символам.\n", n);
     } else if (result > 0) {
-        printf("Первая строка %s лексически больше второй %s тк result = %d\n", str1, str2, result);
+        printf("Первая строка %s лексически больше второй %s, разница = %d\n", str1, str2, result);
     } else {
-      printf("Первая строка %s лексически меньше второй %s тк result = %d\n",str1, str2, result);
+        printf("Первая строка %s лексически меньше второй %s, разница = %d\n", str1, str2, result);
     }
 
     return 0;
