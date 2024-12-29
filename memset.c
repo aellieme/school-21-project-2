@@ -24,7 +24,7 @@ int main() {
   s21_memset(buffer, 5 , sizeof(buffer));
 
   printf("Buffer after memset: ");
-  for (int i = 0; i < sizeof(buffer); i++) {
+  for (int s21_size_t i = 0; i < sizeof(buffer); i++) {
     printf("%d", buffer[i]);
   }
   return 0;
