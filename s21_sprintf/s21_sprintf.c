@@ -2,9 +2,9 @@
 
 int main() {
     char buffer[1028] = {0};
-    s21_sprintf(buffer, "Hello %ld!", 60000000000);
+    s21_sprintf(buffer, "Hello %d %c %s", 80, 'g', "hello");
     printf("%s\n", buffer);
-    sprintf(buffer, "Hello %ld!", 60000000000);
+    sprintf(buffer, "Hello %d %c %s", 80, 'g', "hello");
     printf("%s\n", buffer);
 
     return 0;
@@ -21,20 +21,12 @@ int s21_sprintf(char *str, const char *format, ...) {
         } else {
             j++;
             flag_struct flags = {0};
+//            va_arg(args, int);
             parser_sign(format, &flags, &j);
             parser_flags(format, &flags, &j);
-            length(args, &flags);
             parser_wight(format, &flags, &j);
-            if (format[j] == '.') accuracy(str, format, &i, &j, args);
-//            if(!flags.minus) {while (falgs.wight > 0) {
-// format[j] == ' '; flags.wight--;
-// }; ALL;}
-            else if (format[j] == 'c') specifier_c(str, &i, args);
-            else if (format[j] == 'd') specifier_d(str, &i, args, flags);
-            else if (format[j] == 'u') specifier_u(str, &i, args, flags);
-            else if (format[j] == 'f') specifier_f(str, &i, args, flags);
-            else if (format[j] == 's') specifier_s(str, &i, args);
-            else if (format[j] == '%') specifier_per(str, format, &i, &j);
+            if (format[j] == '.') accuracy(str, format, &i, &j, args); // Alena
+            parser_specifier(format, str, &j, &i, args, flags);
             j++;
         }
     }
@@ -42,6 +34,25 @@ int s21_sprintf(char *str, const char *format, ...) {
     va_end(args);
 
     return i;
+}
+
+// void do_length(char* str, int* i, flag_struct flags) {
+//     for (int i = 0; i < flags.len_arg; i++) {
+//         str[(*i)++] == ' ';
+//     }
+// }
+
+
+void parser_specifier(const char* format, char* str, int* j, int* i, va_list args, flag_struct flags) {
+    switch (format[*j]) {
+        case 'c': specifier_c(str, i, args); break;
+        case 'd': specifier_d(str, i, args, flags); break;
+        case 'u': specifier_u(str, i, args, flags); break;
+        case 'f': specifier_f(str, i, args, flags); break;
+        case 's': specifier_s(str, i, args); break;
+        case '%': specifier_per(str, format, i, &j); break;
+        default: break; // Добавить обработку неисвестных спецификаторов
+    }
 }
 
 void parser_flags(const char* format, flag_struct* flags, int* j) {
@@ -117,15 +128,8 @@ void specifier_c(char *str, int *i, va_list args) {
 }
 
 void specifier_d(char *str, int *i, va_list args, flag_struct flags) {
-      // длина
-    // long int d = 0;
-    // if (flags.flag_l) {
-    //     d = va_arg(args, long int);
-    // } else if(flags.flag_h) {
-    //     d = (short)va_arg(args, int);
-    // } else {
-    //     d = va_arg(args, int);
-    // }
+
+    metamorph_length(args, &flags);
 
     long int d = flags.number;
 
@@ -203,20 +207,13 @@ void specifier_f(char *str, int *i, va_list args, flag_struct flags) { // окр
 
 void specifier_s(char *str, int *i, va_list args) {
     char *s = va_arg(args, char *);
-
     for (int k = 0; s[k] != '\0'; k++) {
         str[(*i)++] = s[k];
     }
 }
 
 void specifier_u(char *str, int *i, va_list args, flag_struct flags) {
-    // длина
-    // unsigned long int u = 0;
-    // if (flags.flag_l) {
-    //     u = va_arg(args, unsigned long int);
-    // } else if (flags.flag_h) {
-    //     u = (short unsigned int)va_arg(args, unsigned int);
-    // } else u = va_arg(args, unsigned int);
+    metamorph_length(args, &flags);
     
     unsigned long int u = flags.number;
 
@@ -235,12 +232,12 @@ void specifier_u(char *str, int *i, va_list args, flag_struct flags) {
     } // дубл
 }
 
-void length(va_list args, flag_struct* flags) {
+void metamorph_length(va_list args, flag_struct* flags) {
     if (flags->flag_l) {
         flags->number = va_arg(args, long int);
     } else if (flags->flag_h) {
         flags->number = (short)va_arg(args, int);
-    } else flags->number = va_arg(args, int);
+    } else flags->number = va_arg(args, int); // d u // c s
 }
 
 void specifier_per(char *str, const char *format, int *i, int *j) {

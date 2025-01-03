@@ -13,6 +13,7 @@ typedef struct {
     int hash;
     int width;
     long int number;
+    
 } flag_struct;
 
 int s21_sprintf(char *str, const char *format, ...);
@@ -26,6 +27,6 @@ void specifier_per(char *str, const char *format, int *i, int *j); // перед
 
 void parser_sign(char const* format, flag_struct* flags, int* j);
 void parser_flags(char const* format, flag_struct* flags, int* j);
-void length(va_list args, flag_struct* flags);
+void metamorph_length(va_list args, flag_struct* flags);
 void parser_wight(const char* format, flag_struct* flags, int* j);
 void parser_specifier();
