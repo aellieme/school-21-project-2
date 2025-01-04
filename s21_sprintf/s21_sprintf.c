@@ -3,9 +3,9 @@
 
 int main() {
     char buffer[1028] = {0};
-    s21_sprintf(buffer, "Hello %.1f!", 55.126516115154145);
+    s21_sprintf(buffer, "Hello %*d|", 5, 2);
     printf("%s\n", buffer);
-    sprintf(buffer, "Hello %.1f!", 55.126516115154145); 
+    sprintf(buffer, "Hello %*d|", 5, 2);
     printf("%s\n", buffer);
 
     return 0;
@@ -38,14 +38,17 @@ int s21_sprintf(char *str, const char *format, ...) {
 }
 
 
-void do_widht(int clear_widht, char *str, flag_struct flags, int* i) {
-  for (int k = 0; k < clear_widht; k++) {
-    if (flags.zero) {
-      str[(*i)++] = '0';
-    } else {
-      str[(*i)++] = ' ';
+void do_widht(int dlina_slova, char *str, flag_struct flags, int* i) {
+
+    int clear_widht = flags.width - dlina_slova;
+
+    for (int k = 0; k < clear_widht; k++) {
+        if (flags.zero) {
+            str[(*i)++] = '0';
+        } else {
+            str[(*i)++] = ' ';
+        }
     }
-  }
 
     if (flags.plus || flags.space) {
         (*i)--;
@@ -134,8 +137,6 @@ void accuracy(char *str, const char* format, int *i, int *j, va_list args) { // 
     (*j) = (*j) + 2;
 }
 
-
-
 void specifier_c(char *str, int *i, va_list args, flag_struct flags) {
 
     char ch = (char)va_arg(args, int);
@@ -163,41 +164,18 @@ void specifier_d(char *str, int *i, va_list args, flag_struct flags) {
     for (z; d_copy > 0; z++) {
         d_copy /= 10;
     }
-    
-    int x = flags.width - z;
 
+ ////////
     if (!flags.minus) {
-        do_widht(x, str, flags, i);
+        do_widht(z, str, flags, i);
     }
 
-    char number[100] = {0};
-    int k = 0;
-    if (d < 0) {
-        str[(*i)++] = '-';
-        d = -(d);
-    } else if (flags.plus) { // plus
-        // if(flags.width) (*i)--;
-        str[(*i)++] = '+';
-    } else if (flags.space) { // space
-        str[(*i)++] = ' ';
-    }
-
-    if (d == 0) {
-        str[(*i)++] = '0';
-    } else {
-        while (d > 0) {
-            number[k++] = (d % 10) + '0';
-            d /= 10;
-        }
-    }
-
-    for (int z = k - 1; z >= 0; z--) {
-        str[(*i)++] = number[z];
-    } // дубл
+    body_d(d, str, i, flags);
 
     if (flags.minus) {
-        do_widht(x, str, flags, i);
+        do_widht(z, str, flags, i);
     }
+    /////////
 }
 
 
@@ -267,8 +245,10 @@ void specifier_f(char *str, int *i, va_list args, flag_struct flags) { // окр
 }
 
 void specifier_s(char *str, int *i, va_list args, flag_struct flags) {
+    
     char *s = va_arg(args, char *);
-    int x = flags.width - strlen(s);
+
+    int x = strlen(s);
 
     if (!flags.minus) {
         do_widht(x, str, flags, i);
@@ -348,4 +328,31 @@ void specifier_per(char *str, const char *format, int *i, int *j) {
         }
     }
     // Прописать иначе - NULL и остановка программы
+}
+
+void body_d(long int d, char* str, int* i, flag_struct flags) {
+    char number[100] = {0};
+    int k = 0;
+    if (d < 0) {
+        str[(*i)++] = '-';
+        d = -(d);
+    } else if (flags.plus) { // plus
+        // if(flags.width) (*i)--;
+        str[(*i)++] = '+';
+    } else if (flags.space) { // space
+        str[(*i)++] = ' ';
+    }
+
+    if (d == 0) {
+        str[(*i)++] = '0';
+    } else {
+        while (d > 0) {
+            number[k++] = (d % 10) + '0';
+            d /= 10;
+        }
+    }
+
+    for (int z = k - 1; z >= 0; z--) {
+        str[(*i)++] = number[z]; // мб сразу в обратном порядке записывать как то можно
+    } // дубл
 }
