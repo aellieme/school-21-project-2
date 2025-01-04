@@ -19,15 +19,3 @@ void *s21_memchr(const void *string, int item, s21_size_t count) {
   }
   return return_value;
 }
-
-int main() {
-  char str[] = "Hello, world!";
-  void *result = s21_memchr(str, 'o', sizeof(str));
-
-  if (result != s21_NULL) {
-    printf("Первое появление 'o' обнаружено по адресу %p\n", result);
-  } else {
-    printf("Не найдено.\n");
-  }
-  return 0;
-}

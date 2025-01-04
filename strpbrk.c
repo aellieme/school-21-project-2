@@ -22,24 +22,3 @@ char *s21_strpbrk(const char *str1, const char *str2) {
 
   return result;
 }
-int main() {
-  const char *str1 = "Hello, world!";
-  const char *str2 = "Yallo Store";
-
-  char *result = s21_strpbrk(str1, str2);
-
-  if (result != s21_NULL) {
-    printf("Первый найденный символ: %c\n", *result);
-  } else {
-    printf("Совпадающих символов нет.\n");
-  }
-
-    char *result2=strpbrk(str1,str2);
-    if (result != NULL) {
-      printf("Первый найденный символ: %c\n", *result2);
-    } else {
-      printf("Совпадающих символов нет.\n");
-    }
-
-  return 0;
-}

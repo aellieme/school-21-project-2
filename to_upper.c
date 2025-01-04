@@ -1,8 +1,10 @@
 //Возвращает копию строки (str), преобразованной в верхний регистр.
 // В случае какой-либо ошибки следует вернуть значение NULL.
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+
+
 #define s21_NULL (void *)0
 #define s21_size_t unsigned long long
 
@@ -37,20 +39,3 @@ void *s21_to_upper(const char *str) {
     return result;
 }
 
-
-int main() {
-    const char *input = "Hello, World!";
-    char *output = (char *)s21_to_upper(input);
-
-    if (output != s21_NULL) {
-        printf("Before: %s\n", input);
-        printf("After: %s\n", output);
-
-        // Освобождаем память, выделенную с помощью malloc
-        free(output);
-    } else {
-        printf("Error\n");
-    }
-
-    return 0;
-}

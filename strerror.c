@@ -1,17 +1,9 @@
-// Выполняет поиск во внутреннем массиве номера ошибки errnum и возвращает
-// указатель на строку с сообщением об ошибке. Нужно объявить макросы,
-// содержащие массивы сообщений об ошибке для операционных систем mac и linux.
-// Описания ошибок есть в оригинальной библиотеке. Проверка текущей ОС
-// осуществляется с помощью директив
-
 #include <stdio.h>
 
 #define s21_NULL (void *)0
 #define s21_size_t unsigned long long
 
 #if defined(__APPLE__)
-// Определения для macOS
-
 #define MAX_ERRLIST 107
 #define MIN_ERRLIST -1
 #define ERROR "Unknown error: "
@@ -124,10 +116,9 @@ const char *error_list[] = {
     "State not recoverable",
     "Previous owner died",
     "Interface output queue is full"
-    };
+};
 
 #elif defined(__linux__)
-// Определения для Linux
 #define MAX_ERRLIST 134
 #define MIN_ERRLIST -1
 #define ERROR "Unknown error "
@@ -268,16 +259,46 @@ const char *error_list[] = {
     "Memory page has hardware error"};
 #endif
 
+char *s21_strerror(int errnum) {
+    static char res[256]; // Используем статическую переменную
 
+    if (errnum < MIN_ERRLIST || errnum > MAX_ERRLIST) {
+        // Формируем строку для неизвестной ошибки
+        //char temp[256];
+        int index = 0;
 
-char *s21_strerror(int errnum){
-  char res[512] = {'\0'};
+        const char *unknown_error = ERROR;
+        while (unknown_error[index] != '\0') {
+            res[index] = unknown_error[index];
+            index++;
+        }
 
-  if (errnum <= MIN_ERRLIST || errnum >= MAX_ERRLIST) {
-    s21_sprintf(res, "Unknown error: %d", errnum);
-  } else {
-    s21_strcpy(res, ((char *)error_list[errnum]));
-  }
+        // Обработка значения errnum
+        int abs_errnum = errnum < 0 ? -errnum : errnum;
+        char num_buffer[50];
+        int num_index = 0;
 
-  return res;
+        do {
+            num_buffer[num_index++] = '0' + (abs_errnum % 10);
+            abs_errnum /= 10;
+        } while (abs_errnum > 0);
+
+        // Копирование числа в результат
+        for (int i = num_index - 1; i >= 0; i--) {
+            res[index++] = num_buffer[i];
+        }
+        res[index] = '\0';
+    } else {
+        // Копируем строку ошибки в результат
+        const char *error_message = error_list[errnum];
+        int index = 0;
+
+        while (error_message[index] != '\0') {
+            res[index] = error_message[index];
+            index++;
+        }
+        res[index] = '\0';
+    }
+
+    return res;
 }

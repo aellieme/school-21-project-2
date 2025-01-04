@@ -1,10 +1,13 @@
 //Возвращает новую строку, в которой указанная строка (str) вставлена 
 //в указанную позицию (start_index) в данной строке (src). 
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+
+
 #define s21_NULL (void *)0
 #define s21_size_t unsigned long long
+
 
 // Функция для вставки строки в указанную позицию
 void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
