@@ -21,20 +21,3 @@ int s21_memcmp(const void *str1, const void *str2, s21_size_t size){
     }
     return result;
 }
-int main(){
-  char str1[] = "hello";
-  char str2[] = "hello";
-  s21_size_t size = 5;
-
-  int comparison_result = s21_memcmp(str1, str2, size);
-
-  if (comparison_result ==-1) {
-    printf("str1 побитово меньше str2\n");
-  } else if (comparison_result ==1) {
-    printf("str1 побитово больше str2\n");
-  } else {
-    printf("str1 равна str2\n");
-  }
-
-  return 0;
-}

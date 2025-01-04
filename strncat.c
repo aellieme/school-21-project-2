@@ -18,11 +18,3 @@ char *s21_strncat(char *str_to, const char *str_from, s21_size_t size){
     str_to[len+i]='\0';
     return str_to;
 }
-
-int main(){
-    char str1[50] = "Hello ";
-    const char str2[] = "world!";
-    s21_strncat(str1, str2, 4);
-    printf("result: %s\n", str1);
-    return 0;
-}

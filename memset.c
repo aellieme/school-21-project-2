@@ -17,15 +17,3 @@ void *s21_memset(void *str, int value, s21_size_t volume) {
     }
     return str;
 }
-
-int main() {
-  char buffer[10];
-  //заполняем цифрой 5
-  s21_memset(buffer, 5 , sizeof(buffer));
-
-  printf("Buffer after memset: ");
-  for (int i = 0; i < sizeof(buffer); i++) {
-    printf("%d", buffer[i]);
-  }
-  return 0;
-}

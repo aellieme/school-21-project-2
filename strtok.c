@@ -85,16 +85,3 @@ char *s21_strtok(char *str, const char *delim) {
     
     return current_token;
 }
-
-int main() {
-    char str[] = "Hello, world! This is a test.";
-    const char delim[] = " ,!";
-    
-    char *token = s21_strtok(str, delim);
-    while (token != s21_NULL) {
-        printf("%s\n", token);
-        token = s21_strtok(s21_NULL, delim);
-    }
-    
-    return 0;
-}

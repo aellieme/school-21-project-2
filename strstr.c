@@ -39,17 +39,3 @@ char *s21_strstr(const char *haystack, const char *needle) {
     
     return result;
 }
-
-int main(void) {
-    char haystack[] = "Marina hello";
-    char *needle = s21_strstr(haystack, "ina");
-    
-    printf("haystack = %s\n", haystack);
-    if (needle != s21_NULL) {
-        printf("needle = %s\n", needle);
-    } else {
-        printf("no\n");
-    }
-    
-    return 0;
-}
