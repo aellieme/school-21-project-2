@@ -22,6 +22,10 @@ test: s21_string.a
 	gcc $(CFLGS) $(TESTFLAGS) test/*.c s21_string.a -o run_test $(LDFLAGS)
 	./run_test
 
+gcov_report:
+	lcov --capture --directory . --output-file coverage.info --rc geninfo_unexecuted_blocks=1
+	genhtml -o report/ coverage.info
+	open ./report/index.html
 
 clean:
 	@rm -f $(OBJS) $(LIBRARY)

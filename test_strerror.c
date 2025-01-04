@@ -1,5 +1,4 @@
 #include "test.h"
-#include "s21_string.h" // Подключите заголовочный файл
 
 START_TEST(strerror1) {
     int error_code = 0;
