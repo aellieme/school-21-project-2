@@ -1,6 +1,7 @@
 #include "s21_sprintf.h"
 #include <string.h>
 
+
 int main() {
     char buffer[1028] = {0};
     s21_sprintf(buffer, "Hello %*d|", 5, 2);
