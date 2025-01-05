@@ -1,7 +1,8 @@
-#include "test.h"
+#include "../test.h"
 
 
-void *s21_to_upper(const char *str);
+
+//void *s21_to_upper(const char *str);
 
 START_TEST(to_upper1)
 {

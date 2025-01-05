@@ -4,9 +4,6 @@
 #include "s21_string.h"
 
 
-#define s21_NULL (void *)0
-#define s21_size_t unsigned long long
-
 char *s21_strpbrk(const char *str1, const char *str2) {
   char *result = s21_NULL;
   int found = 0;

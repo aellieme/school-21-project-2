@@ -1,24 +1,52 @@
-LIBRARY = s21_string.a
-SRCS = $(wildcard *.c)
-HEADERS = $(SRCS:.c=.h)
-OBJS = $(SRCS:.c=.o)
+GCC_FLAGS = -Wall -Werror -Wextra -std=c11
+SANITAIZER = -g -fsanitize=address
+TEST_FLAGS = -lcheck -lm -lpthread
+GCOV_FLAGS = -fprofile-arcs -ftest-coverage
+EXE=test.out
 
-CC = gcc
-CFLAGS = -Wall -Wextra
-GCOV_FLAGS = -fprofile-arcs -ftest-coverage --coverage
-LIBS = -lcheck -lm -lpthread
+# Папки поиска
+SRC_DIR = .
+TEST_DIR = ./test
+OBJ_DIR = ./objs
+TEST_OBJ_DIR = ./test/objs
+BUILD_PATH=./
 
-all: $(LIBRARY)
 
-$(LIBRARY): $(OBJS)
-	@ar rcs $@ $^
+SRC_C_FILES := $(shell find $(SRC_DIR) -name "s21_*.c")
+OBJS_C_FILES := $(addprefix $(OBJ_DIR)/, $(notdir $(SRC_C_FILES:.c=.o)))
 
-%.o: %.c $(HEADERS)
-	@$(CC) $(CFLAGS) -c $< -o $@
 
-test: $(LIBRARY)
-	$(CC) $(CFLAGS) test/*.c $(LIBRARY) -o run_test $(LIBS)
-	./run_test
+TEST_C_FILES := $(shell find $(TEST_DIR) -name "test_*.c")
+OBJS_TEST_FILES := $(addprefix $(TEST_OBJ_DIR)/, $(notdir $(TEST_C_FILES:.c=.o)))
+
+
+all: s21_string.a test gcov_report
+
+rebuild: clean all
+
+test: $(OBJS_TEST_FILES) s21_string.a main.o
+	gcc $(TEST_FLAGS) $(OBJS_TEST_FILES) $(OBJS_C_FILES) main.o
+	./a.out
+
+s21_string.a: $(OBJS_C_FILES)
+	ar rcs s21_string.a $(OBJS_C_FILES)
+	ranlib s21_string.a
+
+main.o: main.c
+	gcc -c $(GCC_FLAGS) -o $@ $<
+
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	gcc $(GCC_FLAGS) -c $< -o $@
+
+$(TEST_OBJ_DIR)/%.o: $(TEST_DIR)/%.c | $(TEST_OBJ_DIR)
+	gcc $(GCC_FLAGS) -c $< -o $@
+
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+$(TEST_OBJ_DIR):
+	mkdir -p $(TEST_OBJ_DIR)
 
 gcov_report: s21_string.a
 	gcc $(GCC_FLAGS) --coverage main.c $(TEST_C_FILES) $(SRC_C_FILES) s21_string.a -L. s21_string.a $(TEST_FLAGS) -o $(BUILD_PATH)$(EXE) 
@@ -27,8 +55,12 @@ gcov_report: s21_string.a
 	genhtml $(BUILD_PATH)coverage.info --output-directory $(BUILD_PATH)report/
 	open $(BUILD_PATH)report/index.html
 
-
-clean:
-	@rm -rf *.o *.a *.gcno *.gcda *.info run_test report/
-
-.PHONY: all clean test gcov_report
+clean: 
+	rm -rf *.a *.out *.info
+	rm -rf $(OBJ_DIR)/*.o
+	rm -rf $(TEST_OBJ_DIR)/*.o
+	rm -rf $(OBJ_DIR)
+	rm -rf $(TEST_OBJ_DIR)
+	rm -rf *.o
+	rm -rf *.gcno *.gcov *.gcda
+	rm -rf report/

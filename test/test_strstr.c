@@ -1,4 +1,4 @@
-#include "test.h"
+#include "../test.h"
 
 
 void assert_strstr(const char *haystack, const char *needle) {

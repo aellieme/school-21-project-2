@@ -1,6 +1,7 @@
-#include "test.h"
+#include "../test.h"
 
-START_TEST(test_basic_string) {
+
+START_TEST(sprintf1) {
     char str1[BUFSIZ];
     char str2[BUFSIZ];
     const char *format = "%s";
@@ -12,7 +13,7 @@ START_TEST(test_basic_string) {
 }
 END_TEST
 
-START_TEST(test_integer_variations) {
+START_TEST(sprintf2) {
     char str1[BUFSIZ];
     char str2[BUFSIZ];
     const char *format = "%+d % d %-d";
@@ -23,7 +24,7 @@ START_TEST(test_integer_variations) {
 }
 END_TEST
 
-START_TEST(test_float_precision) {
+START_TEST(sprintf3) {
     char str1[BUFSIZ];
     char str2[BUFSIZ];
     const char *format = "%.2f %.5f %.0f";
@@ -34,7 +35,7 @@ START_TEST(test_float_precision) {
 }
 END_TEST
 
-START_TEST(test_char_width) {
+START_TEST(sprintf4) {
     char str1[BUFSIZ];
     char str2[BUFSIZ];
     const char *format = "%5c %-5c";
@@ -45,7 +46,7 @@ START_TEST(test_char_width) {
 }
 END_TEST
 
-START_TEST(test_string_width_precision) {
+START_TEST(sprintf5) {
     char str1[BUFSIZ];
     char str2[BUFSIZ];
     const char *format = "%10.5s %-10.5s";
@@ -56,7 +57,7 @@ START_TEST(test_string_width_precision) {
 }
 END_TEST
 
-START_TEST(test_unsigned) {
+START_TEST(sprintf6) {
     char str1[BUFSIZ];
     char str2[BUFSIZ];
     const char *format = "%u %5u %.5u";
@@ -67,7 +68,7 @@ START_TEST(test_unsigned) {
 }
 END_TEST
 
-START_TEST(test_length_modifiers) {
+START_TEST(sprintf7) {
     char str1[BUFSIZ];
     char str2[BUFSIZ];
     const char *format = "%hd %ld";
@@ -80,7 +81,7 @@ START_TEST(test_length_modifiers) {
 }
 END_TEST
 
-START_TEST(test_mixed_specifiers) {
+START_TEST(sprintf8) {
     char str1[BUFSIZ];
     char str2[BUFSIZ];
     const char *format = "%d %f %s %c %u";
@@ -91,7 +92,7 @@ START_TEST(test_mixed_specifiers) {
 }
 END_TEST
 
-START_TEST(test_precision_integers) {
+START_TEST(sprintf9) {
     char str1[BUFSIZ];
     char str2[BUFSIZ];
     const char *format = "%.5d %.0d %.5d";
@@ -102,7 +103,7 @@ START_TEST(test_precision_integers) {
 }
 END_TEST
 
-START_TEST(test_width_alignment) {
+START_TEST(sprintf10) {
     char str1[BUFSIZ];
     char str2[BUFSIZ];
     const char *format = "%10d %-10d %010d";
@@ -113,7 +114,7 @@ START_TEST(test_width_alignment) {
 }
 END_TEST
 
-START_TEST(test_specifier_i) {
+START_TEST(sprintf_i) {
     char str1[BUFSIZ];
     char str2[BUFSIZ];
     const char *format = "%i %i %i";
@@ -124,7 +125,7 @@ START_TEST(test_specifier_i) {
 }
 END_TEST
 
-START_TEST(test_specifier_e) {
+START_TEST(sprintf_e) {
     char str1[BUFSIZ];
     char str2[BUFSIZ];
     const char *format = "%.3e %.5e";
@@ -135,7 +136,7 @@ START_TEST(test_specifier_e) {
 }
 END_TEST
 
-START_TEST(test_specifier_E) {
+START_TEST(sprintf_E) {
     char str1[BUFSIZ];
     char str2[BUFSIZ];
     const char *format = "%.3E %.5E";
@@ -146,7 +147,7 @@ START_TEST(test_specifier_E) {
 }
 END_TEST
 
-START_TEST(test_specifier_g) {
+START_TEST(sprintf_g) {
     char str1[BUFSIZ];
     char str2[BUFSIZ];
     const char *format = "%.3g %.5g";
@@ -157,7 +158,7 @@ START_TEST(test_specifier_g) {
 }
 END_TEST
 
-START_TEST(test_specifier_G) {
+START_TEST(sprintf_G) {
     char str1[BUFSIZ];
     char str2[BUFSIZ];
     const char *format = "%.3G %.5G";
@@ -168,7 +169,7 @@ START_TEST(test_specifier_G) {
 }
 END_TEST
 
-START_TEST(test_specifier_o) {
+START_TEST(sprintf_o) {
     char str1[BUFSIZ];
     char str2[BUFSIZ];
     const char *format = "%o %o %o";
@@ -179,7 +180,7 @@ START_TEST(test_specifier_o) {
 }
 END_TEST
 
-START_TEST(test_specifier_x) {
+START_TEST(sprintf_x) {
     char str1[BUFSIZ];
     char str2[BUFSIZ];
     const char *format = "%x %x %x";
@@ -190,7 +191,7 @@ START_TEST(test_specifier_x) {
 }
 END_TEST
 
-START_TEST(test_specifier_X) {
+START_TEST(sprintf_X) {
     char str1[BUFSIZ];
     char str2[BUFSIZ];
     const char *format = "%X %X %X";
@@ -201,7 +202,7 @@ START_TEST(test_specifier_X) {
 }
 END_TEST
 
-START_TEST(test_specifier_p) {
+START_TEST(sprintf_p) {
     char str1[BUFSIZ];
     char str2[BUFSIZ];
     int x = 42;
@@ -213,7 +214,7 @@ START_TEST(test_specifier_p) {
 }
 END_TEST
 
-START_TEST(test_specifier_n) {
+START_TEST(sprintf_n) {
     char str1[BUFSIZ];
     char str2[BUFSIZ];
     int count1 = 0, count2 = 0;
@@ -228,29 +229,29 @@ END_TEST
 
 
 Suite *suite_sprintf(void) {
-    Suite *s = suite_create("suite_sprintf");
+    Suite *s = suite_create("sprintf");
     TCase *tc = tcase_create("sprintf_tc");
 
-    tcase_add_test(tc, test_basic_string);
-    tcase_add_test(tc, test_integer_variations);
-    tcase_add_test(tc, test_float_precision);
-    tcase_add_test(tc, test_char_width);
-    tcase_add_test(tc, test_string_width_precision);
-    tcase_add_test(tc, test_unsigned);
-    tcase_add_test(tc, test_length_modifiers);
-    tcase_add_test(tc, test_mixed_specifiers);
-    tcase_add_test(tc, test_precision_integers);
-    tcase_add_test(tc, test_width_alignment);
-    tcase_add_test(tc, test_specifier_i);
-    tcase_add_test(tc, test_specifier_e);
-    tcase_add_test(tc, test_specifier_E);
-    tcase_add_test(tc, test_specifier_g);
-    tcase_add_test(tc, test_specifier_G);
-    tcase_add_test(tc, test_specifier_o);
-    tcase_add_test(tc, test_specifier_x);
-    tcase_add_test(tc, test_specifier_X);
-    tcase_add_test(tc, test_specifier_p);
-    tcase_add_test(tc, test_specifier_n);
+    tcase_add_test(tc, sprintf1);
+    tcase_add_test(tc, sprintf2);
+    tcase_add_test(tc, sprintf3);
+    tcase_add_test(tc, sprintf4);
+    tcase_add_test(tc, sprintf5);
+    tcase_add_test(tc, sprintf6);
+    tcase_add_test(tc, sprintf7);
+    tcase_add_test(tc, sprintf8);
+    tcase_add_test(tc, sprintf9);
+    tcase_add_test(tc, sprintf10);
+    tcase_add_test(tc, sprintf_i);
+    tcase_add_test(tc, sprintf_e);
+    tcase_add_test(tc, sprintf_E);
+    tcase_add_test(tc, sprintf_g);
+    tcase_add_test(tc, sprintf_G);
+    tcase_add_test(tc, sprintf_o);
+    tcase_add_test(tc, sprintf_x);
+    tcase_add_test(tc, sprintf_X);
+    tcase_add_test(tc, sprintf_p);
+    tcase_add_test(tc, sprintf_n);
     suite_add_tcase(s, tc);
     return s;
 }

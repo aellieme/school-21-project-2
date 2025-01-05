@@ -35,4 +35,6 @@ void parser_length(char const* format, flag_struct* flags, int* j);
 void metamorph_length(va_list args, flag_struct* flags);
 void parser_wight(const char* format, flag_struct* flags, int* j, va_list args);
 void parser_specifier(const char* format, char* str, int* j, int* i, va_list args, flag_struct flags);
-char *s21_strcpy(char *dest, const char *src);
+//char *s21_strcpy(char *dest, const char *src);
+
+#endif

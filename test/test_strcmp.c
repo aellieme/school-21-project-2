@@ -1,4 +1,5 @@
-#include "test.h"
+#include "../test.h"
+
 
 
 START_TEST(strncmp1) {

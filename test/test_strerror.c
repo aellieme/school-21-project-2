@@ -1,4 +1,4 @@
-#include "test.h"
+#include "../test.h"
 
 START_TEST(strerror1) {
     int error_code = 0;
