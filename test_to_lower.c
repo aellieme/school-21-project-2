@@ -1,4 +1,4 @@
-#include "test.h"
+#include "../test.h"
 
 
 void *s21_to_lower(const char *str); 
@@ -15,13 +15,14 @@ START_TEST(to_lower1) {
 END_TEST
 
 START_TEST(to_lower2) {
-    const char *input1 = "HELLO, \0WORLD!";
-    const char *output = "hello, \0world!";
+    const char input1[] = "HELLO, \0WORLD!"; 
+    const char output[] = "hello, \0world!";
+    size_t len = sizeof(input1);
     char *result = s21_to_lower(input1);
-    ck_assert_ptr_ne(result, s21_NULL); 
-    size_t len = 13; 
-    ck_assert_int_eq(memcmp(result, output, len), 0);  
-    free(result);
+    ck_assert_ptr_ne(result, s21_NULL);
+    ck_assert_int_eq(memcmp(result, output, len), 0);
+
+    free(result); // Освобождаем память
 }
 END_TEST
 
@@ -36,12 +37,13 @@ START_TEST(to_lower3) {
 END_TEST
 
 START_TEST(to_lower4) {
-    const char *input1 = "ASDFG\0HJKL";
-    const char *output = "asdfg\0hjkl";
+    const char input1[] = "ASDFG\0HJKL"; 
+    const char output[] = "asdfg\0hjkl"; 
+    size_t len = sizeof(input1); 
     char *result = s21_to_lower(input1);
     ck_assert_ptr_ne(result, s21_NULL); 
-    size_t len = 10; 
-    ck_assert_int_eq(memcmp(result, output, len), 0);  
+    ck_assert_int_eq(memcmp(result, output, len), 0);
+
     free(result);
 }
 END_TEST

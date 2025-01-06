@@ -1,4 +1,5 @@
-#include "test.h"
+#include "../test.h"
+
 
 START_TEST(memset1) {
 #line 8

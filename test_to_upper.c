@@ -1,4 +1,5 @@
-#include "test.h"
+#include "../test.h"
+
 
 
 void *s21_to_upper(const char *str);
