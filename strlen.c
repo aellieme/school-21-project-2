@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 
 #define s21_NULL (void *)0

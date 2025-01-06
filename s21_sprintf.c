@@ -1,16 +1,5 @@
-
-#include "s21_sprintf.h"
 #include <stdio.h>
-
-int main() {
-    char buffer[1028] = {0};
-    int kolvo = s21_sprintf(buffer, "%-10.10ld %-8.15d %-5.1hd %.10s", -12345, -12345, -12345, "hello");
-    printf("%s\n", buffer);
-    int kolvo1 = sprintf(buffer, "%-10.10ld %-8.15d %-5.1hd %.10s", -12345, -12345, -12345, "hello");
-
-    printf("%s\n", buffer);
-    return 0;
-}
+#include "s21_sprintf.h"
 
 int s21_sprintf(char *str, const char *format, ...) {
     va_list args;
@@ -25,8 +14,13 @@ int s21_sprintf(char *str, const char *format, ...) {
             j++;
             flag_struct flags = {0};
             parser_sign(format, &flags, &j);
-            parser_wight(format, &flags, &j, args);
-            if (format[j] == '.') parser_accuracy(format, &j, args, &flags); // Alena
+            flags.width = parser_wight(format, &j, args);
+            // if (format[j] == '.') {
+            //     j++;
+            //     flags.accuracy = parser_wight(format, &j, args);
+            // } // Alena
+            if (format[j] == '.') j++;
+            flags.accuracy = parser_wight(format, &j, args); // Alena
             parser_length(format, &flags, &j);
             parser_specifier(format, str, &j, &i, args, flags);
             j++;
@@ -95,8 +89,9 @@ void parser_sign(const char* format, flag_struct* flags, int* j) {  // доба�
     }
 }
 
-void parser_wight(const char* format, flag_struct* flags, int* j, va_list args) {
+int parser_wight(const char* format, int* j, va_list args) {
     int result = 0;
+
     while(format[*j] >= '0' && format[*j] <= '9') {
         result = result * 10 + (format[*j] - '0');
         (*j)++;
@@ -106,10 +101,11 @@ void parser_wight(const char* format, flag_struct* flags, int* j, va_list args) 
         result = va_arg(args, int);
         (*j)++;
     }
-    flags->width = result;
+
+    return result;
 } // flags.wig = int parser
 
-void parser_accuracy(const char* format, int* j, va_list args, flag_struct* flags) {
+void parser_accuracy(const char* format, int* j, va_list args, flag_struct* flags) { // скорее всего придется убрать
     int result_ac = 0;
     while(format[(*j)+1] >= '0' && format[(*j)+1] <= '9') {
         result_ac = result_ac * 10 + (format[(*j)+1] - '0');
@@ -137,68 +133,99 @@ void specifier_c(char *str, int *i, va_list args, flag_struct flags) {
 
 }
 
-void specifier_f(char *str, int *i, va_list args, flag_struct flags) { // округление шалит(грустно)
-    double l = va_arg(args, double);
+// void specifier_f(char *str, int *i, va_list args, flag_struct flags) { // округление шалит(грустно)
+//     double l = va_arg(args, double);
+//     int z = 0;
+//     int ac = 6;
+//     double f;
+//     int a = 1;
+//     int count1 = 0;
+
+//     if (flags.accuracy) {
+//             ac = flags.accuracy;
+//     }
+
+//     // разве точность может быть отрицательной?
+//     if (ac < 0) {
+//         ac = ac*(-1);
+//     }
+
+//     //для чего count1
+//     while (count1 < ac) {
+//         a = a * 10;
+//         count1++;
+//     }
+
+//     if (flags.dot_z) {
+//         f = round(l);
+//     } else {
+//         f = (round)(l * a);
+//         f = f / a;
+//     }
+
+//     char number[100] = {0};
+//     int k = 0, count = 0;
+//     int d = (int)f;
+//     int f_copy = (round)(f * a);
     
-    int z = 0;
-    int ac = 6;
-    double f = (round)(l * 1000000);
-    f = f / 1000000;
-    char number[100] = {0};
-    int k = 0, count = 0;
-    int d = (int)f;
-    int f_copy = (round)(f * 1000000);
-    for (; f_copy > 0; z++) {
-        f_copy /= 10;
-    }
-    int x = flags.width - z - 1;
-    if (!flags.minus) {
-        do_widht(x, str, flags, i);
-    }
+//     for (; f_copy > 0; z++) {
+//         f_copy /= 10;
+//     }
+    
+//     int x = flags.width - z - 1;
+    
+//     if (!flags.minus) {
+//         do_widht(x, str, flags, i);
+//     }
+    
+//     if (f < 0) {
+//         str[(*i)++] = '-';
+//         f = -f;
+//         d = -d;
+//     } else if (flags.plus) { // plus
+//         str[(*i)++] = '+';
+//     } else if (flags.space) { // space
+//         str[(*i)++] = ' ';
+//     }
 
-    if (f < 0) {
-        str[(*i)++] = '-';
-        f = -f;
-        d = -d;
-    } else if (flags.plus) { // plus
-        str[(*i)++] = '+';
-    } else if (flags.space) { // space
-        str[(*i)++] = ' ';
-    }
+//     if ((f >= 0 && f < 1)) {
+//         str[(*i)++] = '0';
+//         count++;
+//     }
 
-    if ((f >= 0 && f < 1)) {
-        str[(*i)++] = '0';
-        count++;
-    }
+//     if (f == '.') {
+//         number[k++] = '.';
+//     } else {
+//         while (d > 0) {
+//             number[k] = (d % 10) + '0';
+//             k++;
+//             d = d / 10;
+//         }
 
-    if (f == '.') {
-        number[k++] = '.';
-    } else {
-        while (d > 0) {
-            number[k] = (d % 10) + '0';
-            k++;
-            d = d / 10;
-        }
-        count++;
-        // (*j)++;
-        for (int z = k - 1; z >= 0; z--) {
-            str[(*i)++] = number[z];
-        }
-        str[(*i)++] = '.';
-        double h = (round)((f - (long long)f)*1000000)/1000000; // точность - используем число которое ввели
-        if (flags.accuracy) {
-            ac = flags.accuracy;
-        }
-        while (count <= ac) {
-            h = h * 10;
-            str[(*i)++] = (int)(long long)h % 10 + '0';
-            count++;
-        }
-    }
-    if (flags.minus) {
-        do_widht(x, str, flags, i);
-    }
-}
+//         count++;
+        
+//         for (int z = k - 1; z >= 0; z--) {
+//             str[(*i)++] = number[z];
+//         }
+        
+//         if (!flags.dot_z) {
+//             str[(*i)++] = '.';
+//         }
+        
+//         double h = (round)((f - (long long)f)*a)/a; // точность - используем число которое ввели
+        
+//         while ((count <= ac) && (!flags.dot_z)) {
+//             h = h * 10;
+//             str[(*i)++] = (int)(long long)h % 10 + '0';
+//             h -= (int)(long long)h;
+//             count++;
+//         }
+//     }
+    
+//     if (flags.minus) {
+//         do_widht(x, str, flags, i);
+//     }
+// }
 
 void specifier_s(char *str, int *i, va_list args, flag_struct flags) {
     char *s = va_arg(args, char *);
@@ -210,12 +237,12 @@ void specifier_s(char *str, int *i, va_list args, flag_struct flags) {
     
     for (int k = 0; s[k] != '\0'; k++) {
         if (flags.accuracy) {
-        if (flags.accuracy > count) {
-        str[(*i)++] = s[k];
-        count++;
-        }
-        }else {
-        str[(*i)++] = s[k];
+            if (flags.accuracy > count) {
+                str[(*i)++] = s[k];
+                count++;
+            }
+        } else {
+            str[(*i)++] = s[k];
         }
     }
 
@@ -269,14 +296,13 @@ void specifier_d_u(char *str, int *i, va_list args, flag_struct flags) {
         metamorph_unsight_length(args, &flags);
     }
 
-    int negativ = 0;
+    int negativ = (flags.number < 0 && flags.spec_d);
     int count = 0;
     int x = 0;
     char ch;
     char sub_buffer[1048] = {0};
 
-    if (flags.number < 0 && flags.spec_d) {
-        negativ = 1;
+    if (negativ) {
         flags.number *= -1;
     }
 
@@ -309,10 +335,10 @@ void specifier_d_u(char *str, int *i, va_list args, flag_struct flags) {
 
     ////
     char* s = sub_buffer;
-    int blabla = flags.width - strlen(s);
-    int count2 = 0;
+    int clear_widht = flags.width - strlen(s);
+
     if (!flags.minus) {
-        do_widht(blabla, str, flags, i);
+        do_widht(clear_widht, str, flags, i);
     }
     
     for (int k = 0; s[k] != '\0'; k++) {
@@ -320,7 +346,7 @@ void specifier_d_u(char *str, int *i, va_list args, flag_struct flags) {
     }
 
     if (flags.minus) {
-        do_widht(blabla, str, flags, i);
+        do_widht(clear_widht, str, flags, i);
     }
     ////
 
@@ -384,3 +410,91 @@ void specifier_d_u(char *str, int *i, va_list args, flag_struct flags) {
 //     //     do_widht(x, str, flags, i);
 //     // }
 // }
+
+float round_number(float number) {
+
+    number = ((round)(number * 10 - 0.1) / 10);
+
+    return number;
+}
+
+void specifier_f(char* str, int* i, va_list args, flag_struct flags) {
+    double number = va_arg(args, double);
+    // double number = 5; // 5.523456789 - 5 = 0.523456789
+    int accuracy = 6;
+
+    if (flags.accuracy) {
+        accuracy = flags.accuracy;
+    }
+
+    int negativ = (number < 0);
+
+    if (negativ) {
+        number = -number;
+    }
+
+    int count = 0;
+    // int whole_number = (round)(number * pow(10, accuracy));
+    int whole_number = (round_number)(number); // округление по sprintf // 5
+    // printf("whole_number = %d\n", whole_number);
+    int fractional_number = (round)(((number - whole_number) * pow(10, accuracy)));
+    // printf("fractional_number = %d\n", fractional_number);
+    // printf("number - whole_number = %f   ", (number - whole_number));
+
+    char sub_buffer[1048] = {0};
+
+    for (int k = 0; fractional_number > 0; k++) {
+            sub_buffer[count++] = fractional_number % 10 + '0';
+            fractional_number /= 10;
+    }
+
+    if (number > whole_number) {
+        sub_buffer[count++] = '.';
+    }
+    
+    int k = 0;
+
+    do  {
+        sub_buffer[count++] = fractional_number % 10 + '0';
+        fractional_number /= 10;
+        k++;
+    } while (whole_number > 0);
+    
+
+    if (negativ) {
+        sub_buffer[count++] = '-';
+    } else if (flags.plus) {
+        sub_buffer[count++] = '+'; 
+    } else if (flags.space) {
+        sub_buffer[count++] = ' ';
+    }
+    
+    sub_buffer[count] = '\0';
+
+    count--;
+
+    char ch;
+    int x = 0;
+
+    for (; x <= count ;) {
+        ch = sub_buffer[x];
+        sub_buffer[x++] = sub_buffer[count];
+        sub_buffer[count--] = ch;
+    }
+
+    char* s = sub_buffer;
+    int clear_widht = flags.width - strlen(s);
+
+    if (!flags.minus) {
+        do_widht(clear_widht, str, flags, i);
+    }
+    
+    for (int k = 0; s[k] != '\0'; k++) {
+        str[(*i)++] = s[k];
+    }
+
+    if (flags.minus) {
+        do_widht(clear_widht, str, flags, i);
+    }
+
+}

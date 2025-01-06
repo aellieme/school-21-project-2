@@ -8,16 +8,6 @@
 #define s21_NULL (void *)0
 #define s21_size_t unsigned long long
 
-s21_size_t s21_strlen(const char *str) {
-    s21_size_t len = 0;
-    if (str != s21_NULL) {
-        while (str[len] != '\0') {
-            len++;
-        }
-    }
-    return len;
-}
-
 void *s21_to_upper(const char *str) {
     char *result = s21_NULL;
 

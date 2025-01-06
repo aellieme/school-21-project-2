@@ -45,22 +45,3 @@ void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
 
     return result;
 }
-
-int main() {
-    const char *src = "Hello,  sun, sea!";
-    const char *str = "peace,";
-    s21_size_t start_index = 7;
-
-    char *output = (char *)s21_insert(src, str, start_index);
-
-    if (output != s21_NULL) {
-        printf("Before: %s\n", src);
-        printf("After: %s\n", output);
-
-        free(output);
-    } else {
-        printf("Error\n");
-    }
-
-    return 0;
-}

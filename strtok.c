@@ -4,14 +4,6 @@
 #define s21_NULL (void *)0
 #define s21_size_t unsigned long long
 
-s21_size_t s21_strlen(const char *string) {
-    s21_size_t i = 0;
-    while (string[i] != '\0') {
-        i++;
-    }
-    return i;
-}
-
 char *s21_strpbrk(const char *str1, const char *str2) {
     char *result = s21_NULL;
     int found = 0;

@@ -7,7 +7,6 @@
 #define s21_NULL ((void *)0)
 #define s21_size_t unsigned long long
 
-
 char *s21_strpbrk(const char *str1, const char *str2);
 int main_s21_strpbrk();
 
@@ -58,15 +57,9 @@ int main_s21_to_lower();
 void *s21_insert(const char *src, const char *str, s21_size_t start_index);
 int main_s21_insert();
 
-char *s21_trim(const char *src, const char *trim_chars);
+void *s21_trim(const char *src, const char *trim_chars);
+int main_s21_trim();
 
 const char *s21_strstr(const char *haystack, const char *needle);
-
-char *strncpy(char *dest, const char *src, size_t n);
-int main_s21_strncpy();
-
-int strncmp(const char *str1, const char *str2, size_t n);
-int main_s21_strncmp();
-
 
 #endif // S21_STRING_H
